@@ -6,25 +6,28 @@ mushpy
 ## sample
 
 ```Python
+
 @async
-def work(name):
+def Jobs(name):
 
     count = 0
 
-    while True:
-        world.Note("working 1")
-        yield TimerTask(0,0,5)
-
-        world.Note("working 2")
-
-        world.DoAfter(3,'hi')
-        yield MatchTask(u'^你双手抱拳，作了个揖道：各位英雄请了！$')
-
+    while True:        
+        yield work()
         yield sleep()
-
         count+=1
         world.Note('work done. (%s times)' % count)
-        
+
+@async
+def work():
+    world.Note("working 1")
+    yield TimerTask(0,0,5)
+    world.Note("working 2")
+
+    world.DoAfter(3,'hi')
+    yield MatchTask(u'^你双手抱拳，作了个揖道：各位英雄请了！$')
+
+
 
 @async
 def sleep():
