@@ -62,8 +62,8 @@ class AliasFlags:
     eAliasMenu = 8192 # this alias appears on the alias menu 
     eTemporary = 16384 # same as for AddTrigger
 
-    Re_Replace = eAliasRegularExpression | eReplace | eTemporary
-    Re = eAliasRegularExpression | eTemporary
+    Re_Replace = eEnabled | eAliasRegularExpression | eReplace | eTemporary
+    Re = eEnabled | eAliasRegularExpression | eTemporary
 
 class TimerFlags:
     eEnabled = 1 # same as for AddTrigger

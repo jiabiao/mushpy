@@ -1,0 +1,280 @@
+# coding=gbk
+from _objects import Room,Exit
+
+exits = [
+	Exit('west', 'yanziwu/huayuan', False),
+	Exit('east', 'yanziwu/tingxiang', False),
+]
+biheqiao=Room('yanziwu/biheqiao', u'±ÌºÉÇÅ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('northdown', 'yanziwu/muti', False),
+	Exit('east', 'yanziwu/pindi', False),
+]
+bozhou=Room('yanziwu/bozhou', u'²´ÖÛÎë', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/qiushuan', False),
+	Exit('south', 'yanziwu/shuwu', False),
+	Exit('north', 'yanziwu/yimen', False),
+	Exit('east', 'yanziwu/zuijing', False),
+]
+canheju=Room('yanziwu/canheju', u'²ÎºÏ¾Ó', None, 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/lixiang', False),
+	Exit('south', 'yanziwu/huayuan', False),
+	Exit('north', 'yanziwu/shijian', False),
+	Exit('east', 'yanziwu/huizhen', False),
+]
+changlang=Room('yanziwu/changlang', u'³¤ÀÈ', None, 0, exits)
+
+exits = [
+	Exit('south', 'yanziwu/lixiang', False),
+	Exit('north', 'yanziwu/cuixia', False),
+]
+chuantang=Room('yanziwu/chuantang', u'´©ÌÃ', None, 0, exits)
+
+exits = [
+	Exit('north', 'yanziwu/xiaoting', False),
+]
+chufang=Room('yanziwu/chufang', u'³ø·¿', None, 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/xiaoting', False),
+	Exit('south', 'yanziwu/chuantang', False),
+	Exit('east', 'yanziwu/zhulin1', False),
+]
+cuixia=Room('yanziwu/cuixia', u'´äÏ¼ÌÃ', None, 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/yimen', False),
+	Exit('east', 'yanziwu/huayuan', False),
+]
+dannuo=Room('yanziwu/dannuo', u'à¢Å´Ìü', None, 0, exits)
+
+exits = [
+]
+hu=Room('yanziwu/hu', u'°ÙÇúºþ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('out', 'yanziwu/lanyue', False),
+]
+huanshi=Room('yanziwu/huanshi', u'»¹Ê©Ë®¸ó', None, 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/dannuo', False),
+	Exit('south', 'yanziwu/jiashan', False),
+	Exit('east', 'yanziwu/biheqiao', False),
+	Exit('north', 'yanziwu/changlang', False),
+]
+huayuan=Room('yanziwu/huayuan', u'»¨Ô°', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/changlang', False),
+]
+huizhen=Room('yanziwu/huizhen', u'»ãÕäÔ°', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('northeast', 'suzhou/road5', False),
+]
+hupan=Room('yanziwu/hupan', u'Ì«ºþºþÅÏ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/zuijing', False),
+	Exit('north', 'yanziwu/huayuan', False),
+	Exit('east', 'yanziwu/shuiyun', False),
+]
+jiashan=Room('yanziwu/jiashan', u'¼ÙÉ½', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/shijian', False),
+	Exit('east', 'yanziwu/kuxiu2', False),
+]
+kuxiu=Room('yanziwu/kuxiu', u'¿àÐÞ³¡', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/kuxiu', False),
+]
+kuxiu2=Room('yanziwu/kuxiu2', u'¿àÐÞ³¡', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/shuwu', False),
+]
+lanyue=Room('yanziwu/lanyue', u'À¿ÔÂ¾Ó', None, 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/longfeng', False),
+	Exit('east', 'yanziwu/changlang', False),
+	Exit('north', 'yanziwu/chuantang', False),
+]
+lixiang=Room('yanziwu/lixiang', u'ÀæÏãÔ·', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/pindi', False),
+	Exit('south', 'yanziwu/yimen', False),
+	Exit('east', 'yanziwu/lixiang', False),
+]
+longfeng=Room('yanziwu/longfeng', u'Áú·ïÌü', None, 0, exits)
+
+exits = [
+	Exit('southup', 'yanziwu/bozhou', False),
+	Exit('eastup', 'yanziwu/qinyun', False),
+]
+muti=Room('yanziwu/muti', u'Ä¾ÌÝ', 'yanziwu', 0, exits)
+
+exits = [
+]
+muzhuang=Room('yanziwu/muzhuang', u'Ä¾×®', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('north', 'yanziwu/qinyun', False),
+]
+neitang=Room('yanziwu/neitang', u'ÄÚÌÃ', None, 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/bozhou', False),
+	Exit('east', 'yanziwu/longfeng', False),
+]
+pindi=Room('yanziwu/pindi', u'Æ·µÑÍ¥', None, 0, exits)
+
+exits = [
+	Exit('up', 'yanziwu/qinfang2', False),
+	Exit('east', 'yanziwu/yimen', False),
+]
+qinfang1=Room('yanziwu/qinfang1', u'Çß·¼¸ó', None, 0, exits)
+
+exits = [
+	Exit('down', 'yanziwu/qinfang1', False),
+]
+qinfang2=Room('yanziwu/qinfang2', u'Çß·¼¸ó¶þ²ã', None, 0, exits)
+
+exits = [
+	Exit('south', 'yanziwu/zhulin3', False),
+]
+qingzong=Room('yanziwu/qingzong', u'ÇàÚ£', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('south', 'yanziwu/neitang', False),
+	Exit('east', 'yanziwu/xiaoting', False),
+	Exit('westdown', 'yanziwu/muti', False),
+]
+qinyun=Room('yanziwu/qinyun', u'ÇÙÔÏÐ¡Öþ', None, 0, exits)
+
+exits = [
+	Exit('east', 'yanziwu/canheju', False),
+]
+qiushuan=Room('yanziwu/qiushuan', u'ÇïË¬Õ«', None, 0, exits)
+
+exits = [
+	Exit('north', 'yanziwu/shuwu', False),
+]
+shangyu=Room('yanziwu/shangyu', u'ÉÍÓãÌ¨', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('south', 'yanziwu/changlang', False),
+	Exit('east', 'yanziwu/kuxiu', False),
+]
+shijian=Room('yanziwu/shijian', u'ÊÔ½£Ì¨', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/jiashan', False),
+]
+shuiyun=Room('yanziwu/shuiyun', u'Ë®ÔÆÐù', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('south', 'yanziwu/shangyu', False),
+	Exit('north', 'yanziwu/canheju', False),
+	Exit('east', 'yanziwu/lanyue', False),
+]
+shuwu=Room('yanziwu/shuwu', u'º²Ä«ÊéÎÝ', None, 0, exits)
+
+exits = [
+]
+taihu=Room('yanziwu/taihu', u'Ì«ºþ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/biheqiao', False),
+]
+tingxiang=Room('yanziwu/tingxiang', u'ÌýÏãË®é¿', None, 0, exits)
+
+exits = [
+	Exit('south', 'yanziwu/xiaoqiao', False),
+]
+tingyu=Room('yanziwu/tingyu', u'ÌýÓê¾Ó', None, 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/xiaoqiao', False),
+	Exit('south', 'yanziwu/xiaoting', False),
+]
+xiaojing=Room('yanziwu/xiaojing', u'Ð¡¾¶', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('east', 'yanziwu/xiaojing', False),
+	Exit('north', 'yanziwu/tingyu', False),
+]
+xiaoqiao=Room('yanziwu/xiaoqiao', u'×ÏÁâÇÅ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/qinyun', False),
+	Exit('south', 'yanziwu/chufang', False),
+	Exit('north', 'yanziwu/xiaojing', False),
+	Exit('east', 'yanziwu/cuixia', False),
+]
+xiaoting=Room('yanziwu/xiaoting', u'Ïþº®Ìü', None, 0, exits)
+
+exits = [
+]
+xiaozhou=Room('yanziwu/xiaozhou', u'Ð¡ÖÛ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/qinfang1', False),
+	Exit('south', 'yanziwu/canheju', False),
+	Exit('north', 'yanziwu/longfeng', False),
+	Exit('east', 'yanziwu/dannuo', False),
+]
+yimen=Room('yanziwu/yimen', u'ÒÇÃÅ', None, 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/cuixia', False),
+	Exit('south', 'yanziwu/zhulin4', False),
+	Exit('north', 'yanziwu/zhulin4', False),
+	Exit('east', 'yanziwu/zhulin2', False),
+]
+zhulin1=Room('yanziwu/zhulin1', u'ÖñÁÖ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/zhulin1', False),
+	Exit('south', 'yanziwu/zhulin2', False),
+	Exit('north', 'yanziwu/zhulin3', False),
+	Exit('east', 'yanziwu/zhulin1', False),
+]
+zhulin2=Room('yanziwu/zhulin2', u'ÖñÁÖ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/zhulin4', False),
+	Exit('south', 'yanziwu/zhulin2', False),
+	Exit('north', 'yanziwu/qingzong', False),
+	Exit('east', 'yanziwu/zhulin3', False),
+]
+zhulin3=Room('yanziwu/zhulin3', u'ÖñÁÖ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/zhulin4', False),
+	Exit('south', 'yanziwu/zhulin1', False),
+	Exit('north', 'yanziwu/zhulin1', False),
+	Exit('east', 'yanziwu/zhulin3', False),
+]
+zhulin4=Room('yanziwu/zhulin4', u'ÖñÁÖ', 'yanziwu', 0, exits)
+
+exits = [
+	Exit('west', 'yanziwu/canheju', False),
+	Exit('east', 'yanziwu/jiashan', False),
+]
+zuijing=Room('yanziwu/zuijing', u'×º½õÂ¥', None, 0, exits)
+
+exits = [
+	Exit('down', 'yanziwu/zuijing', False),
+]
+zuijing2=Room('yanziwu/zuijing2', u'×º½õÂ¥¶þ²ã', None, 0, exits)
+

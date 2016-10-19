@@ -1,17 +1,21 @@
-from objects import Trigger,Timer
+from mcobjects import Trigger,Timer
 from consts import *
+
+
+
 
 class Task(object):
     result = None
 
     def __init__(self, name):
         self.name = name
+        self.prefix=""
 
     def begin(self):
         raise NotImplementedError
 
     def end(self, *args):
-        print(self.name,"end")
+        #print self.prefix + "<-" + self.name
         self.parent.next(self.result)  
 
 
@@ -29,20 +33,26 @@ class MockTask(Task):
 class MatchTask(Task):
     """done after match special text"""        
     
-    def __init__(self, match, name='matchTask'):
-        super(MatchTask, self).__init__(name)
+    def __init__(self, match, tname='matchTask', **options):
+        super(MatchTask, self).__init__(tname)
+        options["one_shot"] = 1
         self.match = match
+        self.options = options 
 
     def begin(self):
-        trig = Trigger(self.match, flags=TriggerFlags.eEnabled | TriggerFlags.eTemporary | TriggerFlags.eKeepEvaluating | TriggerFlags.eTriggerRegularExpression, one_shot = 1)        
-        trig.callback(self.end)
+        trig = Trigger(self.match, flags=TriggerFlags.eEnabled | TriggerFlags.eReplace | TriggerFlags.eTemporary | TriggerFlags.eKeepEvaluating | TriggerFlags.eTriggerRegularExpression, **self.options)        
+        trig.callback(self.callback)
+
+    def callback(self, *args):
+        self.result = args
+        self.end(args)
 
  
 class TimerTask(Task):
     """done after special period"""
 
-    def __init__(self, hh, mm, ss):
-        super(TimerTask, self).__init__(None)
+    def __init__(self, hh, mm, ss, name = None):
+        super(TimerTask, self).__init__(name or "timer")
         self.hh = hh
         self.mm = mm
         self.ss = ss
@@ -51,6 +61,26 @@ class TimerTask(Task):
         timer = Timer(self.hh, self.mm, self.ss, flags=TimerFlags.eEnabled | TimerFlags.eOneShot)        
         timer.callback(self.end)
 
+
+
+class ManualEndTask(Task):
+    """manual end task"""
+    def __init__(self,name='manual_end_task'):
+        super(ManualEndTask, self).__init__(name)
+
+    def begin(self):
+        pass
+
+class ValueTask(Task):
+    """only for return value"""        
+    
+    def __init__(self, result, name='valueTask'):
+        super(ValueTask, self).__init__(name)
+        self.result = result
+
+    def begin(self):
+        self.end(None)
+        
  
 class CombineTask(Task):
     def __init__(self, tasks, name='combineTask'):
@@ -62,23 +92,37 @@ class CombineTask(Task):
 
     def next(self,lastResult):
         try:
-            nextchild = self.tasks.send(lastResult)
-            nextchild.parent = self    
-            print(self.name,">>",nextchild.name)        
+            gen = self.tasks
+            if gen == None:
+                self.end()
+                return
+            nextchild = gen.send(lastResult)
+            nextchild.parent = self  
+            nextchild.prefix = self.prefix + "\t"
+            #print nextchild.prefix + "->" + nextchild.name
             nextchild.begin()
         except StopIteration:
+            self.result = lastResult    
             self.tasks.close()
-            if hasattr(self,"parent"):           
-                self.end()  
+            if hasattr(self,"parent"):     
+                self.end() 
+
       
  
-def async(func):
-    def createTask(*args,**kw):
-        tasks = func(*args,**kw)
-        name = None
-        if "name" in kw:
-            name = kw["name"]
-        return CombineTask(tasks,name)
-    return createTask
- 
+# def async(func):
+#     def createTask(*args,**kw):
+#         tasks = func(*args,**kw)
+
+#         return CombineTask(tasks,name)
+#     return createTask
+
+
+def async(name = None):
+    def decorator(func):
+        def createTask(*args, **kw):
+            tasks = func(*args,**kw)
+            task_name = name or func.__name__ 
+            return CombineTask(tasks,task_name)
+        return createTask
+    return decorator 
  

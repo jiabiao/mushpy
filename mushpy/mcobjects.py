@@ -24,9 +24,9 @@ class McObject(object):
 
     # ----------- END VIRTUAL ----------------
 
-    def __init__(self):
+    def __init__(self, name = None):
         McObject._index += 1
-        self._name = "mc" +  str(McObject._index)
+        self._name = name or "mc" +  str(McObject._index)
         self._index = McObject._index
 
     def __cmp__(self, other):
@@ -62,12 +62,12 @@ class McObject(object):
         self['enabled'] = 0
 
     @staticmethod    
-    def disable_group(self,group):
-        world.EnableGroup(group, 1)
+    def disable_group(group):
+        world.EnableGroup(group, False)
     
     @staticmethod        
-    def enable_group(self):
-        world.EnableGroup(group, 0)    
+    def enable_group(group):
+        world.EnableGroup(group, True)    
 
     def callback(self,func):
         '''Set a callback to call when match matches.
@@ -84,9 +84,9 @@ class McObject(object):
         self["script"] = "CbFacade"
         return func
 
-
+    @staticmethod
     def GC():
-        if len(McObject._callbacks) < 30:
+        if len(McObject._callbacks) < 50:
             return;        
         newcallbacks = {}
 
@@ -103,22 +103,25 @@ class McObject(object):
                     newcallbacks[a] =McObject._callbacks[a]
 
         timerlist = world.GetTimerList
-        for t in timerlist:
-                if t in McObject._callbacks:
-                    newcallbacks[t] =McObject._callbacks[t]
+        if (timerlist):
+            for t in timerlist:
+                    if t in McObject._callbacks:
+                        newcallbacks[t] =McObject._callbacks[t]
 
-        print("garbage collection. before:%s ,after:%s",len(McObject._callbacks),len(newcallbacks))
+        print "garbage collection. before:%d ,after:%d" % (len(McObject._callbacks), len(newcallbacks))
         McObject._callbacks = newcallbacks
 
 
+
 g.CbFacade = lambda *args : McObject._callbacks[args[0]](*args)
+
 
 # ------------------------
 #       Trigger
 # ------------------------
 class Trigger(McObject):
 
-    def __init__(self, match, flags = None, **options):        
+    def __init__(self, match, name = None, flags = None, **options):        
         if 'script' in options:
             raise KeyError(options, '"script" cannot be used')
         if 'match' in options:
@@ -127,8 +130,10 @@ class Trigger(McObject):
             raise ValueError(match, "'match' cannot be empty")
         if flags == None:
             flags = TriggerFlags.KeepEval_Re | TriggerFlags.eEnabled
+            if name:
+                flags = flags | TriggerFlags.eReplace
 
-        super(Trigger, self).__init__()
+        super(Trigger, self).__init__(name)
 
         res = world.AddTriggerEx(self._name, match, "", flags, -1, 0, "", "", 0, 100)
         if res != ErrorNo.eOK:
@@ -151,12 +156,12 @@ class Trigger(McObject):
         return ErrorNo.eOK == world.IsTrigger(name)
 
     @staticmethod    
-    def disable_group(self,group):
-        world.EnableTriggerGroup (group, 1)
+    def disable_group(group):
+        world.EnableTriggerGroup (group, False)
     
     @staticmethod        
-    def enable_group(self):
-        world.EnableTriggerGroup (group, 0)
+    def enable_group(group):
+        world.EnableTriggerGroup (group, True)
 
 # ------------------------
 #       Alias
@@ -171,11 +176,13 @@ class Alias(McObject):
         if not match:
             raise ValueError(match, "'match' cannot be empty")
         if flags == None:
-            flags = AliasFlags.Re
+            flags = AliasFlags.Re | TriggerFlags.eTemporary
+            if name:
+                flags = flags | AliasFlags.eReplace
 
-        super(Alias, self).__init__()
+        super(Alias, self).__init__(name)
 
-        res = world.AddAlias(name, match, "", flags, "")
+        res = world.AddAlias(self._name, match, "", flags, "")
         if res != ErrorNo.eOK:
             raise SystemError(res, 'Adding failed')
         for (key, value) in options.items():
@@ -195,23 +202,27 @@ class Alias(McObject):
         return ErrorNo.eOK == world.IsAlias(name)
 
     @staticmethod    
-    def disable_group(self,group):
-        world.EnableAliasGroup(group, 1)
+    def disable_group(group):
+        world.EnableAliasGroup(group, False)
     
     @staticmethod        
-    def enable_group(self):
-        world.EnableAliasGroup(group, 0)
+    def enable_group(group):
+        world.EnableAliasGroup(group, True)
 
 class Timer(McObject):
 
-    def __init__(self, hour, minute, second, flags = None, **options):        
+    def __init__(self, hour, minute, second, name = None, flags = None, **options):        
         if 'script' in options:
             raise KeyError(options, '"script" cannot be used')
         if flags == None:
-            flags = TimerFlags.OneShot
+            flags = TimerFlags.eEnabled | TimerFlags.eTemporary
+            if name:
+                flags = flags | TimerFlags.eReplace
+            else:
+                flags = flags | TimerFlags.eOneShot
+                
 
-        super(Timer, self).__init__()
-        print(self._name,hour,minute,second)
+        super(Timer, self).__init__(name)
         res = world.AddTimer(self._name, hour, minute, second, "", flags, "")
         if res != ErrorNo.eOK:
             raise SystemError(res, 'Adding failed')
@@ -232,9 +243,40 @@ class Timer(McObject):
         return ErrorNo.eOK == world.IsTimer(name)
 
     @staticmethod    
-    def disable_group(self,group):
-        world.EnableTimerGroup (group, 1)
+    def disable_group(group):
+        world.EnableTimerGroup (group, False)
     
     @staticmethod        
-    def enable_group(self):
-        world.EnableTimerGroup (group, 0)
+    def enable_group(group):
+        world.EnableTimerGroup (group, True)
+
+
+
+def trigger(pattern, name = None, flags = None, **options):    
+    tr = Trigger(pattern, name, flags,**options)    
+    def CalledOnFunc(func):
+        tr.callback(func)
+        return func
+    return CalledOnFunc
+
+
+def timer(hour, minute, second, name = None, flags = None, **options):    
+    ti = Timer(hour, minute, second, name, flags,**options)    
+    def CalledOnFunc(func):
+        ti.callback(func)
+        return func
+    return CalledOnFunc
+
+
+def alias(pattern, name = None,flags = None, **options):    
+    a = Alias(pattern, name, flags,**options)    
+    def CalledOnFunc(func):
+        a.callback(func)
+        return func
+    return CalledOnFunc
+
+@timer(0,10,0, name ="gc",flags=TimerFlags.eEnabled | TimerFlags.eTemporary | TimerFlags.eReplace,group="core")
+def GC(*args):
+    McObject.GC()
+
+

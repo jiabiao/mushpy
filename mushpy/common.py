@@ -36,3 +36,9 @@ def expose(*args):
 
 def show(obj):
     world.note(str(obj))
+
+
+
+def enum(*sequential, **named):
+    enums = dict(zip(sequential, range(len(sequential))), **named)
+    return type('Enum', (), enums)
